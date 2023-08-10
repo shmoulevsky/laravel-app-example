@@ -1,0 +1,760 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Simple App Documentation",
+        "description": "Documentation for App",
+        "contact": {
+            "email": "shmoulevskye@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "127.200.200.200",
+            "description": "API host"
+        }
+    ],
+    "paths": {
+        "/api/v1/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User auth (by email or phone)",
+                "operationId": "Login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout",
+                "operationId": "Logout",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/refresh": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Token refresh",
+                "operationId": "Refresh",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RefreshResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/notes": {
+            "get": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Get notes list by current user",
+                "operationId": "NotesList",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "query for search in title or text",
+                        "required": false,
+                        "example": "Note"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotesResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/note/{id}": {
+            "get": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Get user note by id",
+                "operationId": "NoteShow",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoteResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Delete user note by id",
+                "operationId": "NoteDelete",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/notes": {
+            "post": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Store user note",
+                "operationId": "Store note",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NoteStoreRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/api/v1/notes/{id}": {
+            "patch": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Update user note",
+                "operationId": "Update note",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NoteUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/api/v1/register": {
+            "post": {
+                "tags": [
+                    "Register"
+                ],
+                "summary": "Register user",
+                "operationId": "Register",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegisterResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/profile": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user profile",
+                "operationId": "Profile",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update user profile",
+                "description": "",
+                "operationId": "UserUpdate",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserProfileUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Delete user",
+                "description": "",
+                "operationId": "UserDelete",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/profile/password": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update user password",
+                "description": "",
+                "operationId": "UserPasswordUpdate",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangePasswordRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AuthRequest": {
+                "title": "AuthRequest",
+                "description": "Desc",
+                "properties": {
+                    "login": {
+                        "description": "login",
+                        "type": "string",
+                        "example": "3876234062"
+                    },
+                    "password": {
+                        "description": "password",
+                        "type": "string",
+                        "example": "12345678pp"
+                    }
+                },
+                "type": "object"
+            },
+            "AuthResponse": {
+                "title": "AuthResponse",
+                "description": "Desc",
+                "properties": {
+                    "user": {
+                        "description": "$user",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "description": "id",
+                                    "type": "integer",
+                                    "example": "4486"
+                                },
+                                "name": {
+                                    "description": "name",
+                                    "type": "string",
+                                    "example": "Тест"
+                                },
+                                "lastname": {
+                                    "description": "lastname",
+                                    "type": "string",
+                                    "example": "Тестов"
+                                },
+                                "email": {
+                                    "description": "email",
+                                    "type": "string",
+                                    "example": "testov@mail.ru"
+                                },
+                                "phone": {
+                                    "description": "phone",
+                                    "type": "string",
+                                    "example": "+79230001234"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "token": {
+                        "description": "token",
+                        "type": "string",
+                        "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjEwMC4yMTAuMTAwL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjg0NDgzOTI5LCJleHAiOjE2ODQ0ODc1MjksIm5iZiI6MTY4NDQ4MzkyOSwianRpIjoieUJlN0xvVzhpcHRRZ0dPTyIsInN1YiI6IjQ0ODYiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.K5wsrIsneAvJh8FIIWfJXZb49bRiTjDFnLdA6xPVbAY"
+                    },
+                    "error": {
+                        "description": "error",
+                        "type": "string",
+                        "example": ""
+                    }
+                },
+                "type": "object"
+            },
+            "ChangePasswordRequest": {
+                "title": "ChangePasswordRequest",
+                "description": "Desc",
+                "properties": {
+                    "password": {
+                        "description": "password",
+                        "type": "string",
+                        "example": "12345678pp"
+                    },
+                    "password_confirmation": {
+                        "description": "password_confirmation",
+                        "type": "string",
+                        "example": "12345678pp"
+                    },
+                    "password_old": {
+                        "description": "password_confirmation",
+                        "type": "string",
+                        "example": "12345678pp"
+                    }
+                },
+                "type": "object"
+            },
+            "NoteResponse": {
+                "title": "NoteResponse",
+                "description": "Desc",
+                "properties": {
+                    "data": {
+                        "description": "$data",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "description": "id",
+                                    "type": "integer",
+                                    "example": "1"
+                                },
+                                "title": {
+                                    "description": "title",
+                                    "type": "string",
+                                    "example": "Note title"
+                                },
+                                "text": {
+                                    "description": "text",
+                                    "type": "string",
+                                    "example": "Note text"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "NoteShortItem": {
+                "title": "NoteShortItem",
+                "description": "Desc",
+                "properties": {
+                    "id": {
+                        "description": "id",
+                        "type": "integer",
+                        "example": "2"
+                    },
+                    "title": {
+                        "description": "title",
+                        "type": "string",
+                        "example": "Note title"
+                    }
+                },
+                "type": "object"
+            },
+            "NoteStoreRequest": {
+                "title": "NoteStoreRequest",
+                "description": "Desc",
+                "properties": {
+                    "title": {
+                        "description": "title",
+                        "type": "string",
+                        "example": "Note title"
+                    },
+                    "text": {
+                        "description": "text",
+                        "type": "string",
+                        "example": "Note text"
+                    }
+                },
+                "type": "object"
+            },
+            "NoteUpdateRequest": {
+                "title": "NoteUpdateRequest",
+                "description": "Desc",
+                "properties": {
+                    "title": {
+                        "description": "title",
+                        "type": "string",
+                        "example": "Note title"
+                    },
+                    "text": {
+                        "description": "text",
+                        "type": "string",
+                        "example": "Note text"
+                    }
+                },
+                "type": "object"
+            },
+            "NotesResponse": {
+                "title": "NoteResponse",
+                "description": "Desc",
+                "properties": {
+                    "data": {
+                        "description": "$data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/NoteShortItem"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ProfileResponse": {
+                "title": "ProfileResponse",
+                "description": "Desc",
+                "properties": {
+                    "data": {
+                        "description": "$data",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "description": "id",
+                                    "type": "integer",
+                                    "example": "13934"
+                                },
+                                "name": {
+                                    "description": "name",
+                                    "type": "string",
+                                    "example": "Тест"
+                                },
+                                "lastname": {
+                                    "description": "lastname",
+                                    "type": "string",
+                                    "example": "Тестов"
+                                },
+                                "email": {
+                                    "description": "email",
+                                    "type": "string",
+                                    "example": "test130@mail.ru"
+                                },
+                                "phone": {
+                                    "description": "phone",
+                                    "type": "string",
+                                    "example": "79232177338"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "RefreshResponse": {
+                "title": "RefreshResponse",
+                "description": "Desc",
+                "properties": {
+                    "token": {
+                        "description": "token",
+                        "type": "string",
+                        "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjEwMC4yMTAuMTAwL2FwaS92MS9hdXRoL3JlZnJlc2giLCJpYXQiOjE2ODQ4NTM0NTIsImV4cCI6MTY4NDg1NzA1MywibmJmIjoxNjg0ODUzNDUzLCJqdGkiOiIwb0xOMUo5UURLZThEaFFiIiwic3ViIjoiMTM5MzQiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.Qg5idCiXw6VdXHAQzDdskP-gSnHgFpQYB56LBLZWoPY"
+                    }
+                },
+                "type": "object"
+            },
+            "RegisterRequest": {
+                "title": "RegisterRequest",
+                "description": "Desc",
+                "properties": {
+                    "name": {
+                        "description": "name",
+                        "type": "string",
+                        "example": "Test"
+                    },
+                    "last_name": {
+                        "description": "last name",
+                        "type": "string",
+                        "example": "Testov"
+                    },
+                    "email": {
+                        "description": "email",
+                        "type": "string",
+                        "example": "test130@mail.ru"
+                    },
+                    "phone": {
+                        "description": "phone",
+                        "type": "string",
+                        "example": "8(923)000-7300"
+                    },
+                    "password": {
+                        "description": "password",
+                        "type": "string",
+                        "example": "12345678pp"
+                    }
+                },
+                "type": "object"
+            },
+            "RegisterResponse": {
+                "title": "RegisterFinishResponse",
+                "description": "Desc",
+                "properties": {
+                    "user": {
+                        "description": "$user",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "description": "id",
+                                    "type": "integer",
+                                    "example": "13934"
+                                },
+                                "name": {
+                                    "description": "name",
+                                    "type": "string",
+                                    "example": "Тест"
+                                },
+                                "lastname": {
+                                    "description": "lastname",
+                                    "type": "string",
+                                    "example": "Тестов"
+                                },
+                                "email": {
+                                    "description": "email",
+                                    "type": "string",
+                                    "example": "test130@mail.ru"
+                                },
+                                "phone": {
+                                    "description": "phone",
+                                    "type": "string",
+                                    "example": "79232177300"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "token": {
+                        "description": "token",
+                        "type": "string",
+                        "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjEwMC4yMTAuMTAwL2FwaS9yZWdpc3Rlci9maW5pc2giLCJpYXQiOjE2ODQ3NjE1ODIsImV4cCI6MTY4NDc2NTE4MiwibmJmIjoxNjg0NzYxNTgyLCJqdGkiOiJSQ0R5TlhXaW10UjNOa2NxIiwic3ViIjoiMTM5MzQiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.xyYTVoQPJYG7Zm4RBJ2wDpaAztX4M46-DiLPrh4Jw0A"
+                    },
+                    "error": {
+                        "description": "error",
+                        "type": "string",
+                        "example": ""
+                    }
+                },
+                "type": "object"
+            },
+            "SuccessResponse": {
+                "title": "SuccessResponse",
+                "description": "Success",
+                "properties": {
+                    "data": {
+                        "description": "$data",
+                        "properties": {
+                            "status": {
+                                "description": "status",
+                                "type": "boolean",
+                                "example": "true"
+                            },
+                            "errors": {
+                                "description": "errors",
+                                "type": "null",
+                                "example": "null"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "UserProfileUpdateRequest": {
+                "title": "UserProfileUpdateRequest",
+                "description": "Desc",
+                "properties": {
+                    "name": {
+                        "description": "name",
+                        "type": "string",
+                        "example": "Test"
+                    },
+                    "lastname": {
+                        "description": "lastname",
+                        "type": "string",
+                        "example": "Testov"
+                    },
+                    "email": {
+                        "description": "email",
+                        "type": "string",
+                        "example": "test@mail.ru"
+                    },
+                    "phone": {
+                        "description": "phone",
+                        "type": "string",
+                        "example": "89232170000"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}
